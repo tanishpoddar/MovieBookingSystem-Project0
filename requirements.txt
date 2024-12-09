@@ -1,0 +1,4 @@
+SQLAlchemy
+mysql-connector-python
+tkinter
+streamlit
