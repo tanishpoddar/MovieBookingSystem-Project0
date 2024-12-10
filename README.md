@@ -54,7 +54,7 @@ To run the application in the terminal (without GUI):
 
 1. Run the following command to execute the Python script:
    ```bash
-   python booking_system.py
+   python main.py
    ```
 
 2. This will allow you to interact with the booking system via the terminal. You can follow the on-screen prompts to book tickets.
@@ -81,7 +81,7 @@ To run the web app using Streamlit:
 
 2. Run the Streamlit application:
    ```bash
-   streamlit run streamlit-app.py
+   streamlit run app.py
    ```
 
 3. The web app will open in your browser, and you can book tickets and view the current bookings.
