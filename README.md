@@ -13,24 +13,14 @@
 - **Waiting List**: If the screen is full, users are added to a waiting list and notified when a seat becomes available.
 - **Cancel Bookings**: Cancel tickets (if the show is more than 30 minutes away).
 - **User-Friendly UI**: Interactive interfaces for booking and viewing bookings.
-
-## Table of Contents
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Normal Python](#normal-python)
-  - [GUI](#gui)
-  - [Streamlit](#streamlit)
-- [Screenshots](#screenshots)
-- [License](#license)
-
 ---
 
 ## Installation
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/tanishpoddar/ShowTimeSync-MovieBookingSystem
-   cd ShowTimeSync-MovieBookingSystem
+   git clone https://github.com/tanishpoddar/ShowTimeSync
+   cd ShowTimeSync
    ```
 2. **Install the dependencies**:
    ```bash
