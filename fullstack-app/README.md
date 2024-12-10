@@ -58,6 +58,8 @@ node app.js
 ```
 The application will start a server on `http://localhost:3001`.
 
+## Screenshots
+![fullstack-app](image/fullstack-app.jpg)
 ## Contributing
 Contributions are welcome! Please open an issue or submit a pull request if you have any improvements or fixes.
 
