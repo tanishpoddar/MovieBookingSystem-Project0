@@ -1,107 +1,75 @@
-# ShowTimeSync
+# ShowTimeSync - Movie Booking System
 
-**ShowTimeSync** is a theater booking system that allows users to book movie tickets, view current bookings, and order food items (popcorn, sandwiches). It provides three different interfaces for interacting with the system:
+## Overview
+ShowTimeSync is a comprehensive movie booking system designed to help a movie theater company manage ticket bookings across India. The system is built using two different technology stacks to cater to different requirements and environments.
 
-1. **Normal Python Script (CLI)** - Simple command-line interaction.
-2. **GUI (Tkinter)** - A rich graphical user interface for booking tickets.
-3. **Web App (Streamlit)** - A modern web-based interface for booking and viewing current bookings.
+## Technology Stacks
+1. **Python with MySQL**
+   - Backend application for handling core business logic and database operations.
+   - Utilizes MySQL for storing and managing data.
 
-## Features
+2. **Node.js with SQLite**
+   - Frontend application for user interaction and additional features.
+   - Utilizes SQLite for lightweight and efficient data storage.
 
-- **Theater Booking**: Book tickets for different theaters and screen types (Gold, IMAX, and General).
-- **Food Orders**: Order food items like popcorn and sandwiches with price discounts based on screen type.
-- **Waiting List**: If the screen is full, users are added to a waiting list and notified when a seat becomes available.
-- **Cancel Bookings**: Cancel tickets (if the show is more than 30 minutes away).
-- **User-Friendly UI**: Interactive interfaces for booking and viewing bookings.
----
+## Problem Statement
+We want to build an application which helps a movie theater company in managing ticket booking across India.
 
-## Installation
+### Features
+1. **Theater Management**
+   - The company has theaters across the country, with each theater having multiple screens.
+   - Types of screens:
+     - **Gold (Price - Rs. 400 / per ticket)**: 2 seats per screen
+     - **Max (Price - Rs. 300 / per ticket)**: 5 seats per screen
+     - **General (Price - Rs. 200 / per ticket)**: 10 seats per screen
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/tanishpoddar/ShowTimeSync
-   cd ShowTimeSync
-   ```
-2. **Install the dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+2. **Ticket Booking**
+   - Users can book movie tickets for different types of screens.
+   - Seat availability and pricing are managed dynamically.
+   - When the seats are full, the tickets go to the waiting list, and if anyone cancels, the waiting list gets updated.
 
-3. **Database Setup**:
-   - Before running the application, make sure you have MySQL installed and running on your machine.
-   - Create a database `theater_db` in MySQL.
-   - Replace the `username` and `password` in `database.py` with your MySQL credentials.
-     ```python
-     engine = create_engine('mysql://root:YOUR_PASSWORD@localhost/theater_db')
-     ```
+3. **Food & Beverage Booking**
+   - Users can book food and beverages while booking movie tickets.
+   - Available items:
+     - **Popcorn**
+     - **Sandwich**
+   - Discounts:
+     - **Gold ticket users**: 10% discount on food
+     - **Max ticket users**: 5% discount on food
 
----
+## Directory Structure
+- **fullstack-app/**: Node.js application with SQLite database.
+  - `app.js`: Main application file.
+  - `cleanup-db.js`: Script to clean up the database.
+  - `init-db.js`: Script to initialize the database.
+  - `init.sql`: SQL script for database initialization.
+  - `movie_booking.db`: SQLite database file.
+  - `README.md`: Documentation for the Node.js application.
+  - `public/`: Public assets for the web application.
+    - `index.html`: Main HTML file.
+    - `css/`: CSS files.
+      - `styles.css`: Stylesheet for the web application.
+    - `js/`: JavaScript files.
+      - `main.js`: Main JavaScript file.
 
-## Usage
+- **python-app/**: Python application with MySQL database.
+  - `app.py`: Main application file.
+  - `booking_system.py`: Module for handling booking logic.
+  - `database.py`: Module for database operations.
+  - `gui-app.py`: GUI application file.
+  - `main.py`: Entry point for the application.
+  - `README.md`: Documentation for the Python application.
+  - `requirements.txt`: List of Python dependencies.
 
-### 1. Normal Python (CLI)
-To run the application in the terminal (without GUI):
+## Getting Started
+Refer [Node.js & SQLite README.md](fullstack-app/readme.md) for step-by-step instructions
 
-1. Run the following command to execute the Python script:
-   ```bash
-   python main.py
-   ```
-
-2. This will allow you to interact with the booking system via the terminal. You can follow the on-screen prompts to book tickets.
-
-### 2. GUI (Tkinter)
-To run the graphical user interface with Tkinter:
-
-1. Ensure you have the Tkinter library installed (it is included by default in most Python installations).
-   
-2. Run the following command:
-   ```bash
-   python gui-app.py
-   ```
-
-3. This will open the Tkinter window where you can interact with the booking system and view the current bookings.
-
-### 3. Streamlit Web App
-To run the web app using Streamlit:
-
-1. Make sure you have Streamlit installed:
-   ```bash
-   pip install streamlit
-   ```
-
-2. Run the Streamlit application:
-   ```bash
-   streamlit run app.py
-   ```
-
-3. The web app will open in your browser, and you can book tickets and view the current bookings.
-
----
-
-## Screenshots
-
-### 1. Normal Python (CLI)
-![CLI](images/cli.jpg)
-![CLI](images/cli2.jpg)
-
-### 2. GUI (Tkinter)
-
-![GUI](images/gui.jpg)
-
-This screenshot shows the Tkinter-based graphical user interface for booking movie tickets and ordering food.
-
-### 3. Streamlit Web App
-
-![Streamlit](images/streamlit.jpg)
-
-This is the Streamlit-based web app for booking tickets. The user can select a theater, screen type, and food items, then book a ticket.
-
----
-### Notes
-
-- Make sure to replace the database credentials (`username`, `password`) in `database.py` before running the project.
-- You can use `requirements.txt` for dependency management. Each mode should contain the necessary libraries (e.g., `streamlit`, `tkinter`, `sqlalchemy`, `mysql`, etc.).
+Refer [PYTHON README.md](python-app/readme.md) for step-by-step instructions.
+## Contributing
+Contributions are welcome! Please open an issue or submit a pull request if you have any improvements or fixes.
 
 ## License
-
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+For any questions or feedback, please contact [your-email@example.com](mailto:your-email@example.com).
