@@ -1,6 +1,4 @@
-// main.js
 document.addEventListener('DOMContentLoaded', () => {
-    // DOM elements
     const theaterSelect = document.getElementById('theater-select');
     const screenSelect = document.getElementById('screen-select');
     const seatsContainer = document.getElementById('seats-container');
@@ -9,8 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const bookButton = document.getElementById('book-button');
     const bookingSummary = document.getElementById('booking-summary');
     const summaryContent = document.getElementById('summary-content');
-
-    // Modal elements
     const cancelModal = document.getElementById('cancel-modal');
     const cancelTicketBtn = document.getElementById('cancel-ticket-btn');
     const cancelConfirmBtn = document.getElementById('cancel-confirm-btn');
@@ -20,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedSeat = null;
     let selectedScreen = null;
 
-    // Load theaters
     fetch('/api/theaters')
         .then(response => response.json())
         .then(theaters => {
@@ -36,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Failed to load theaters. Please refresh the page.');
         });
 
-    // Load food items
     fetch('/api/food-items')
         .then(response => response.json())
         .then(foodItems => {
@@ -55,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Failed to load food items. Please refresh the page.');
         });
 
-    // Theater selection change handler
     theaterSelect.addEventListener('change', (e) => {
         const theaterId = e.target.value;
         screenSelect.innerHTML = '<option value="">Choose a screen</option>';
@@ -84,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Screen selection change handler
     screenSelect.addEventListener('change', (e) => {
         const screenId = e.target.value;
         selectedScreen = screenId ? {
@@ -96,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
         seatsContainer.innerHTML = '';
         selectedSeat = null;
         
-        // In main.js, in the screen selection change handler
         if (screenId) {
             fetch(`/api/screens/${screenId}/seats`)
                 .then(response => response.json())
@@ -107,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         div.textContent = seat.seat_number;
                         div.dataset.id = seat.id;
                         
-                        // Allow clicking even on booked seats!
                         div.addEventListener('click', () => {
                             document.querySelectorAll('.seat').forEach(s => s.classList.remove('selected'));
                             div.classList.add('selected');
@@ -124,16 +114,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
     });
 
-// Booking handler
 bookButton.addEventListener('click', () => {
-    console.log('Starting booking process...'); // Debug log
+    console.log('Starting booking process...'); 
     
     if (!selectedScreen || !selectedSeat || !customerName.value.trim()) {
         alert('Please select a screen, seat, and enter your name');
         return;
     }
 
-    // Collect food orders
     const foodOrders = Array.from(foodContainer.querySelectorAll('input'))
         .map(input => ({
             foodItemId: parseInt(input.dataset.id),
@@ -142,7 +130,6 @@ bookButton.addEventListener('click', () => {
         }))
         .filter(order => order.quantity > 0);
 
-    // Create booking
     fetch('/api/bookings', {
         method: 'POST',
         headers: {
@@ -162,7 +149,6 @@ bookButton.addEventListener('click', () => {
             let summaryHTML = '';
             
             if (booking.isWaitingList) {
-                // Waiting list booking summary
                 summaryHTML = `
                     <p><strong>Booking Status:</strong> Waiting List</p>
                     <p><strong>Waiting List Position:</strong> ${booking.waitingListPosition}</p>
@@ -171,14 +157,11 @@ bookButton.addEventListener('click', () => {
                     <p class="note">You will be automatically upgraded to a confirmed booking when a seat becomes available.</p>
                 `;
             } else {
-                // Calculate food total with discount
                 let foodDiscount = selectedScreen.type === 'Gold' ? 0.10 : 
                                  selectedScreen.type === 'Max' ? 0.05 : 0;
                 
                 let foodTotal = foodOrders.reduce((total, order) => 
                     total + (order.price * order.quantity * (1 - foodDiscount)), 0);
-
-                // Regular booking summary
                 summaryHTML = `
                     <p><strong>Booking Status:</strong> Confirmed</p>
                     <p><strong>Booking ID:</strong> ${booking.bookingId}</p>
@@ -190,11 +173,8 @@ bookButton.addEventListener('click', () => {
                 `;
             }
             
-            // Display the summary
             summaryContent.innerHTML = summaryHTML;
             bookingSummary.style.display = 'block';
-
-            // Reset form
             theaterSelect.value = '';
             screenSelect.value = '';
             screenSelect.disabled = true;
@@ -213,12 +193,10 @@ bookButton.addEventListener('click', () => {
     });
 });
 
-    // Cancel ticket button handler
     cancelTicketBtn.addEventListener('click', () => {
         cancelModal.classList.add('active');
     });
 
-    // Cancel confirmation handler
     cancelConfirmBtn.addEventListener('click', () => {
         const bookingId = bookingIdInput.value.trim();
         if (!bookingId) {
@@ -250,13 +228,10 @@ bookButton.addEventListener('click', () => {
         });
     });
 
-    // Close modal button handler
     cancelCloseBtn.addEventListener('click', () => {
         cancelModal.classList.remove('active');
         bookingIdInput.value = '';
     });
-
-    // Close modal when clicking outside
     cancelModal.addEventListener('click', (e) => {
         if (e.target === cancelModal) {
             cancelModal.classList.remove('active');

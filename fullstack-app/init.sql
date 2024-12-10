@@ -1,11 +1,9 @@
--- Create theaters table
 CREATE TABLE theaters (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     location TEXT NOT NULL
 );
 
--- Create screens table
 CREATE TABLE screens (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     theater_id INTEGER,
@@ -15,7 +13,6 @@ CREATE TABLE screens (
     FOREIGN KEY (theater_id) REFERENCES theaters(id)
 );
 
--- Create seats table
 CREATE TABLE seats (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     screen_id INTEGER,
@@ -24,14 +21,12 @@ CREATE TABLE seats (
     FOREIGN KEY (screen_id) REFERENCES screens(id)
 );
 
--- Create food_items table
 CREATE TABLE food_items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     price DECIMAL(10,2) NOT NULL
 );
 
--- Create bookings table
 CREATE TABLE bookings (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     screen_id INTEGER,
@@ -43,7 +38,6 @@ CREATE TABLE bookings (
     FOREIGN KEY (seat_id) REFERENCES seats(id)
 );
 
--- Create food_orders table
 CREATE TABLE food_orders (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     booking_id INTEGER,
@@ -54,12 +48,10 @@ CREATE TABLE food_orders (
     FOREIGN KEY (food_item_id) REFERENCES food_items(id)
 );
 
--- Insert initial data
 INSERT INTO theaters (name, location) VALUES
 ('PVR Cinemas', 'Delhi'),
 ('PVR Cinemas', 'Mumbai');
 
--- Insert screens for each theater
 INSERT INTO screens (theater_id, screen_type, total_seats, price) VALUES
 (1, 'Gold', 2, 400),
 (1, 'Max', 5, 300),
@@ -68,12 +60,10 @@ INSERT INTO screens (theater_id, screen_type, total_seats, price) VALUES
 (2, 'Max', 5, 300),
 (2, 'General', 10, 200);
 
--- Insert food items
 INSERT INTO food_items (name, price) VALUES
 ('Popcorn', 150),
 ('Sandwich', 100);
 
--- Create waiting_list table
 CREATE TABLE waiting_list (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     screen_id INTEGER,
@@ -84,9 +74,5 @@ CREATE TABLE waiting_list (
     FOREIGN KEY (screen_id) REFERENCES screens(id)
 );
 
--- Add waiting_list_position to bookings table
 ALTER TABLE bookings ADD COLUMN is_waiting_list BOOLEAN DEFAULT 0;
 ALTER TABLE bookings ADD COLUMN waiting_list_position INTEGER;
-
--- Insert seats for each screen
--- This would be done through a separate initialization scriptpm
