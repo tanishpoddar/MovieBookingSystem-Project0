@@ -62,14 +62,11 @@ We want to build an application which helps a movie theater company in managing 
   - `requirements.txt`: List of Python dependencies.
 
 ## Getting Started
-Refer [Node.js & SQLite README.md](fullstack-app/readme.md) for step-by-step instructions
+Refer [Node.js & SQLite README.md](fullstack-app/README.md) for step-by-step instructions
 
-Refer [PYTHON README.md](python-app/readme.md) for step-by-step instructions.
+Refer [PYTHON README.md](python-app/README.md) for step-by-step instructions.
 ## Contributing
 Contributions are welcome! Please open an issue or submit a pull request if you have any improvements or fixes.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contact
-For any questions or feedback, please contact [your-email@example.com](mailto:your-email@example.com).
