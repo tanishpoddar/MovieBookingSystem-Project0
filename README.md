@@ -1,23 +1,23 @@
 # ShowTimeSync - Movie Booking System
 
 ## Overview
-ShowTimeSync is a comprehensive movie booking system designed to help a movie theater company manage ticket bookings across India. The system is built using two different technology stacks to cater to different requirements and environments.
+ShowTimeSync is a comprehensive movie booking system designed to help a movie theatre company manage ticket bookings across India. The system uses two technology stacks to cater to different requirements and environments.
 
 ## Technology Stacks
 1. **Python with MySQL**
    - Backend application for handling core business logic and database operations.
-   - Utilizes MySQL for storing and managing data.
+   - Utilizes MySQL to store and manage data.
 
 2. **Node.js with SQLite**
    - Frontend application for user interaction and additional features.
    - Utilizes SQLite for lightweight and efficient data storage.
 
 ## Problem Statement
-We want to build an application which helps a movie theater company in managing ticket booking across India.
+We want to build an application which helps a movie theatre company in managing ticket booking across India.
 
 ### Features
 1. **Theater Management**
-   - The company has theaters across the country, with each theater having multiple screens.
+   - The company has theatres across the country, with each theatre having multiple screens.
    - Types of screens:
      - **Gold (Price - Rs. 400 / per ticket)**: 2 seats per screen
      - **Max (Price - Rs. 300 / per ticket)**: 5 seats per screen
@@ -26,7 +26,7 @@ We want to build an application which helps a movie theater company in managing 
 2. **Ticket Booking**
    - Users can book movie tickets for different types of screens.
    - Seat availability and pricing are managed dynamically.
-   - When the seats are full, the tickets go to the waiting list, and if anyone cancels, the waiting list gets updated.
+   - When the seats are full, the tickets go to the waiting list and, if anyone cancels, the waiting list gets updated.
 
 3. **Food & Beverage Booking**
    - Users can book food and beverages while booking movie tickets.
@@ -65,8 +65,6 @@ We want to build an application which helps a movie theater company in managing 
 Refer [Node.js & SQLite README.md](fullstack-app/README.md) for step-by-step instructions
 
 Refer [PYTHON README.md](python-app/README.md) for step-by-step instructions.
-## Contributing
-Contributions are welcome! Please open an issue or submit a pull request if you have any improvements or fixes.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
