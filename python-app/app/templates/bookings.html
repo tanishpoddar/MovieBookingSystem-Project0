@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>My Bookings</h2>
+    <div class="row">
+        {% if bookings %}
+            {% for booking in bookings %}
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Booking #{{ booking.id }}</h5>
+                        <p>Screen Type: {{ booking.screen.type }}</p>
+                        <p>Seats Booked: {{ booking.seats_booked }}</p>
+                        <p>Total Price: ₹{{ "%.2f"|format(booking.total_price) }}</p>
+                        <p>Booking Date: {{ booking.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                        <p>Status: {{ booking.status }}</p>
+                        {% if booking.status == 'confirmed' %}
+                        <form action="{{ url_for('booking.cancel_booking', booking_id=booking.id) }}" method="POST" 
+                              onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+                            <button type="submit" class="btn btn-danger">Cancel Booking</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">You haven't made any bookings yet.</div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

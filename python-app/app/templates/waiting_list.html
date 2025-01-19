@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>My Waiting List</h2>
+    <div class="row">
+        {% if waiting_list %}
+            {% for item in waiting_list %}
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Waiting List #{{ item.id }}</h5>
+                        <p>Screen Type: {{ item.screen.type }}</p>
+                        <p>Seats Required: {{ item.seats_required }}</p>
+                        <p>Requested on: {{ item.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                        <p>Status: {{ item.status }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    You are not on any waiting lists currently.
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

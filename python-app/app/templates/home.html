@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>Movie Booking System</h2>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Booking Form -->
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Book Movie Tickets</h5>
+                </div>
+                <div class="card-body">
+                    <form id="bookingForm" method="POST" action="{{ url_for('booking.book_ticket') }}">
+                        <!-- Theater Selection -->
+                        <div class="mb-3">
+                            <label for="theater" class="form-label">Select Theater</label>
+                            <select class="form-select" id="theater" name="theater_id" required>
+                                <option value="">Choose Theater</option>
+                                {% for theater in theaters %}
+                                    <option value="{{ theater.id }}">{{ theater.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Screen Selection -->
+                        <div class="mb-3">
+                            <label for="screen" class="form-label">Select Screen</label>
+                            <select class="form-select" id="screen" name="screen_id" required disabled>
+                                <option value="">Choose Screen</option>
+                            </select>
+                            <small class="text-muted">
+                                Gold: ₹400/seat (2 seats) | Max: ₹300/seat (5 seats) | General: ₹200/seat (10 seats)
+                            </small>
+                        </div>
+
+                        <!-- Number of Seats -->
+                        <div class="mb-3">
+                            <label for="seats" class="form-label">Number of Seats</label>
+                            <input type="number" class="form-control" id="seats" name="seats" min="1" required>
+                        </div>
+
+                        <!-- Food Selection -->
+                        <div class="mb-3">
+                            <label class="form-label">Food & Beverages (Optional)</label>
+                            {% for food in food_items %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="food_items[]" 
+                                       value="{{ food.id }}" id="food{{ food.id }}" data-price="{{ food.price }}">
+                                <label class="form-check-label" for="food{{ food.id }}">
+                                    {{ food.name }} - ₹{{ food.price }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                            <small class="text-muted">
+                                Gold: 10% off on food | Max: 5% off on food
+                            </small>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary">Book Ticket</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Summary -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Booking Summary</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Ticket Cost:</strong> <span id="ticketCost">₹0</span></p>
+                    <p><strong>Food Cost:</strong> <span id="foodCost">₹0</span></p>
+                    <p><strong>Total Cost:</strong> <span id="totalCost">₹0</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const theaterSelect = document.getElementById('theater');
+    const screenSelect = document.getElementById('screen');
+    const seatsInput = document.getElementById('seats');
+    const foodItems = document.querySelectorAll('input[name="food_items[]"]');
+    const bookingForm = document.getElementById('bookingForm');
+    const submitButton = bookingForm.querySelector('button[type="submit"]');
+
+    function updateSeatsAndButtons(availableSeats) {
+        if (availableSeats === 0) {
+            seatsInput.disabled = true;
+            seatsInput.value = 1;
+            bookingForm.action = '{{ url_for('booking.add_to_waitlist') }}';
+            submitButton.textContent = 'Join Waitlist';
+            submitButton.className = 'btn btn-warning';
+        } else {
+            seatsInput.disabled = false;
+            seatsInput.max = availableSeats;
+            seatsInput.value = 1;
+            bookingForm.action = '{{ url_for('booking.book_ticket') }}';
+            submitButton.textContent = 'Book Ticket';
+            submitButton.className = 'btn btn-primary';
+        }
+        updateTotal();
+    }
+
+    // Fetch screens when theater is selected
+    theaterSelect.addEventListener('change', async function() {
+        const theaterId = this.value;
+        screenSelect.disabled = !theaterId;
+        
+        if (theaterId) {
+            const response = await fetch(`/theater/${theaterId}/screens`);
+            const screens = await response.json();
+            
+            screenSelect.innerHTML = '<option value="">Choose Screen</option>';
+            screens.forEach(screen => {
+                screenSelect.innerHTML += `
+                    <option value="${screen.id}" 
+                            data-type="${screen.type}" 
+                            data-price="${screen.price}"
+                            data-available="${screen.seats_available}">
+                        ${screen.type} - ₹${screen.price}/seat (${screen.seats_available} available)
+                    </option>`;
+            });
+        }
+        // Reset seats and buttons when theater changes
+        if (screenSelect.selectedOptions[0]) {
+            const availableSeats = parseInt(screenSelect.selectedOptions[0].dataset.available) || 0;
+            updateSeatsAndButtons(availableSeats);
+        }
+    });
+
+    // Update seats and buttons when screen changes
+    screenSelect.addEventListener('change', function() {
+        const selectedScreen = this.selectedOptions[0];
+        if (selectedScreen) {
+            const availableSeats = parseInt(selectedScreen.dataset.available) || 0;
+            updateSeatsAndButtons(availableSeats);
+        }
+    });
+
+    // Validate seats input
+    seatsInput.addEventListener('input', function() {
+        const selectedScreen = screenSelect.selectedOptions[0];
+        if (selectedScreen) {
+            const availableSeats = parseInt(selectedScreen.dataset.available) || 0;
+            const seats = parseInt(this.value) || 0;
+            
+            if (seats > availableSeats && availableSeats > 0) {
+                this.value = availableSeats;
+            }
+            if (seats < 1) {
+                this.value = 1;
+            }
+        }
+        updateTotal();
+    });
+
+    // Update totals when inputs change
+    foodItems.forEach(item => item.addEventListener('change', updateTotal));
+
+    function updateTotal() {
+        let ticketCost = 0;
+        let foodCost = 0;
+
+        const selectedScreen = screenSelect.selectedOptions[0];
+        const seats = parseInt(seatsInput.value) || 0;
+
+        if (selectedScreen && selectedScreen.dataset.price) {
+            ticketCost = seats * parseFloat(selectedScreen.dataset.price);
+        }
+
+        // Calculate food cost with discount
+        const screenType = selectedScreen ? selectedScreen.dataset.type : '';
+        const foodDiscount = screenType === 'Gold' ? 0.1 : screenType === 'Max' ? 0.05 : 0;
+
+        foodItems.forEach(item => {
+            if (item.checked) {
+                const itemPrice = parseFloat(item.dataset.price);
+                foodCost += itemPrice;
+            }
+        });
+
+        // Apply discount to food
+        foodCost = foodCost - (foodCost * foodDiscount);
+
+        document.getElementById('ticketCost').textContent = `₹${ticketCost.toFixed(2)}`;
+        document.getElementById('foodCost').textContent = `₹${foodCost.toFixed(2)}`;
+        document.getElementById('totalCost').textContent = `₹${(ticketCost + foodCost).toFixed(2)}`;
+    }
+
+    // Form submission validation
+    bookingForm.addEventListener('submit', function(e) {
+        const selectedScreen = screenSelect.selectedOptions[0];
+        if (!selectedScreen) {
+            e.preventDefault();
+            alert('Please select a screen');
+            return;
+        }
+
+        const availableSeats = parseInt(selectedScreen.dataset.available) || 0;
+        const requestedSeats = parseInt(seatsInput.value) || 0;
+
+        if (availableSeats > 0 && requestedSeats > availableSeats) {
+            e.preventDefault();
+            alert(`Only ${availableSeats} seats available. The remaining ${requestedSeats - availableSeats} seats will be added to the waiting list.`);
+        }
+    });
+});
+</script>
+{% endblock %}
