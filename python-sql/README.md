@@ -1,6 +1,7 @@
-# ShowTimeSync - Python
+# Project0 - Movie Booking System (Python & SQLite)
 
-**ShowTimeSync** is a theater booking system that allows users to book movie tickets, view current bookings, and order food items (popcorn, sandwiches). It provides three different interfaces for interacting with the system:
+## Overview
+**Project0** is a theater booking system that allows users to book movie tickets, view current bookings, and order food items (popcorn, sandwiches). It provides three different interfaces for interaction:
 
 1. **Normal Python Script (CLI)** - Simple command-line interaction.
 2. **GUI (Tkinter)** - A rich graphical user interface for booking tickets.
@@ -20,9 +21,9 @@
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/tanishpoddar/ShowTimeSync
-   cd ShowTimeSync
-   cd python-app
+   git clone https://github.com/tanishpoddar/MovieBookingSystem-Project0
+   cd MovieBookingSystem-Project0
+   cd python-sql
    ```
 2. **Install the dependencies**:
    ```bash
@@ -103,7 +104,8 @@ This is the Streamlit-based web app for booking tickets. The user can select a t
 
 - Make sure to replace the database credentials (`username`, `password`) in `database.py` before running the project.
 - You can use `requirements.txt` for dependency management. Each mode should contain the necessary libraries (e.g., `streamlit`, `tkinter`, `sqlalchemy`, `mysql`, etc.).
-
+- This project is part of the [Net-Nex](https://github.com/net-nex) organization.
+  
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
