@@ -1,4 +1,13 @@
-SQLAlchemy
-mysql-connector-python
-tkinter
-streamlit
+Flask>=2.0.1
+Flask-SQLAlchemy>=2.5.1
+SQLAlchemy>=1.4.23
+python-dotenv>=0.19.0
+pytest>=6.2.5
+Flask-Migrate>=3.1.0
+Flask-Login>=0.5.0
+Werkzeug>=2.0.1
+Jinja2>=3.0.3
+MarkupSafe>=2.0.1
+alembic>=1.7.1
+click>=8.0.1
+itsdangerous>=2.0.1
